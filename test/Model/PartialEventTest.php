@@ -1,12 +1,12 @@
 <?php
 
-namespace CalendArt\Adapter\Google\Event;
+namespace CalendArt\Adapter\Google\Test\Model;
 
 use DateTimeZone;
-
-use CalendArt\Adapter\Google\Calendar,
-    CalendArt\Adapter\Google\EventParticipation,
-    CalendArt\Adapter\Google\User;
+use CalendArt\Adapter\Google\Model\Calendar;
+use CalendArt\Adapter\Google\Model\EventParticipation;
+use CalendArt\Adapter\Google\Model\PartialEvent;
+use CalendArt\Adapter\Google\Model\User;
 
 class PartialEventTest extends \PHPUnit_Framework_TestCase
 {

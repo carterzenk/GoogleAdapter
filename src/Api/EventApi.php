@@ -9,7 +9,7 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Api;
 
 use InvalidArgumentException;
 
@@ -18,10 +18,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CalendArt\Adapter\EventApiInterface;
 use CalendArt\AbstractEvent as CalendArtAbstractEvent;
 
-use CalendArt\Adapter\Google\Event\BasicEvent;
+use CalendArt\Adapter\Google\Model\BasicEvent;
+use CalendArt\Adapter\Google\Model\AbstractEvent;
+use CalendArt\Adapter\Google\Model\Calendar;
 use CalendArt\Adapter\Google\Exception\CriterionNotFoundException;
+use CalendArt\Adapter\Google\Criterion\AbstractCriterion;
 use CalendArt\Adapter\Google\Criterion\Field;
 use CalendArt\Adapter\Google\Criterion\Collection;
+use CalendArt\Adapter\Google\GoogleAdapter;
 
 /**
  * Google Adapter for the Calendars

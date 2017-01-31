@@ -9,18 +9,13 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google\Event;
+namespace CalendArt\Adapter\Google\Model;
 
 use Datetime,
     InvalidArgumentException;
 
 use Doctrine\Common\Collections\Collection,
     Doctrine\Common\Collections\ArrayCollection;
-
-use CalendArt\Adapter\Google\User,
-    CalendArt\Adapter\Google\Calendar,
-    CalendArt\Adapter\Google\AbstractEvent,
-    CalendArt\Adapter\Google\EventParticipation;
 
 /**
  * Base event class for google events

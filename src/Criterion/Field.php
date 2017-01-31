@@ -11,8 +11,6 @@
 
 namespace CalendArt\Adapter\Google\Criterion;
 
-use CalendArt\Adapter\Google\AbstractCriterion;
-
 /**
  * Represents a Field criterion
  *

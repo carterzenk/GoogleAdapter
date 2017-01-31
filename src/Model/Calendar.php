@@ -9,7 +9,7 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Model;
 
 use DateTimeZone,
     InvalidArgumentException;

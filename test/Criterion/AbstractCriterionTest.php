@@ -9,14 +9,11 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Test\Criterion;
 
 use ReflectionMethod;
-
 use PHPUnit_Framework_TestCase;
-
-use CalendArt\Adapter\Google\AbstractCriterion,
-    CalendArt\Adapter\Google\Exception\CriterionNotFoundException;
+use CalendArt\Adapter\Google\Criterion\AbstractCriterion;
 
 class AbstractCriterionTest extends PHPUnit_Framework_TestCase
 {
@@ -24,9 +21,11 @@ class AbstractCriterionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->stub = $this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion',
-                                                     ['foo', [$this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['bar']),
-                                                              $this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['baz'])]]);
+        $this->stub = $this->getMockForAbstractClass(
+            AbstractCriterion::class,
+            ['foo', [$this->getMockForAbstractClass(AbstractCriterion::class, ['bar']),
+                     $this->getMockForAbstractClass(AbstractCriterion::class, ['baz'])]]
+        );
     }
 
     public function testConstructor()
@@ -40,25 +39,31 @@ class AbstractCriterionTest extends PHPUnit_Framework_TestCase
         $clone = iterator_to_array(clone $this->stub);
 
         $this->assertCount(2, $clone);
-        $this->assertContainsOnlyInstancesOf('CalendArt\\Adapter\\Google\\AbstractCriterion', $clone);
+        $this->assertContainsOnlyInstancesOf(AbstractCriterion::class, $clone);
     }
 
-    /** @dataProvider getProvider */
+    /**
+     * @dataProvider getProvider
+     * @param $criterion
+     */
     public function testGetCriterion($criterion)
     {
-        $refl = new ReflectionMethod('CalendArt\\Adapter\\Google\\AbstractCriterion', 'getCriterion');
+        $refl = new ReflectionMethod(AbstractCriterion::class, 'getCriterion');
         $refl->setAccessible(true);
         $criterion = $refl->invoke($this->stub, $criterion);
 
-        $this->assertInstanceOf('CalendArt\\Adapter\\Google\\AbstractCriterion', $criterion);
+        $this->assertInstanceOf(AbstractCriterion::class, $criterion);
     }
 
-    /** @dataProvider getProvider */
+    /**
+     * @dataProvider getProvider
+     * @param $criterion
+     */
     public function testDeleteCriterion($criterion)
     {
         $this->assertCount(2, iterator_to_array($this->stub));
 
-        $refl = new ReflectionMethod('CalendArt\\Adapter\\Google\\AbstractCriterion', 'deleteCriterion');
+        $refl = new ReflectionMethod(AbstractCriterion::class, 'deleteCriterion');
         $refl->setAccessible(true);
         $refl->invoke($this->stub, $criterion);
 
@@ -68,18 +73,19 @@ class AbstractCriterionTest extends PHPUnit_Framework_TestCase
     public function getProvider()
     {
         return [['bar'],
-                [$this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['bar'])]];
+                [$this->getMockForAbstractClass(AbstractCriterion::class, ['bar'])]];
     }
 
     /**
      * @dataProvider methodProvider
      *
-     * @expectedException        CalendArt\Adapter\Google\Exception\CriterionNotFoundException
+     * @expectedException        \CalendArt\Adapter\Google\Exception\CriterionNotFoundException
      * @expectedExceptionMessage The criterion `fubar` was not found. Available criterions are the following : [`bar`, `baz`]
+     * @param $method
      */
     public function testWrongCriterion($method)
     {
-        $refl = new ReflectionMethod('CalendArt\\Adapter\\Google\\AbstractCriterion', $method . 'Criterion');
+        $refl = new ReflectionMethod(AbstractCriterion::class, $method . 'Criterion');
         $refl->setAccessible(true);
         $refl->invoke($this->stub, 'fubar');
     }
@@ -90,17 +96,19 @@ class AbstractCriterionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        InvalidArgumentException
+     * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage Can't merge two different criteria. Had `foo` and `bar`
      */
     public function testMergeNotSameName()
     {
-        $this->stub->merge($this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['bar']));
+        $this->stub->merge($this->getMockForAbstractClass(AbstractCriterion::class, ['bar']));
     }
 
     /**
      * @dataProvider mergeProvider
      *
+     * @param AbstractCriterion $source
+     * @param AbstractCriterion $criterion
      * @param integer $expected Number of expected criteria
      */
     public function testMerge(AbstractCriterion $source = null, AbstractCriterion $criterion = null, $expected)
@@ -115,11 +123,11 @@ class AbstractCriterionTest extends PHPUnit_Framework_TestCase
 
     public function mergeProvider()
     {
-        $recursive = $this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion',
-                                                    ['foo', [$this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['bar']),
-                                                             $this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['fubar'])]]);
+        $recursive = $this->getMockForAbstractClass(AbstractCriterion::class,
+                                                    ['foo', [$this->getMockForAbstractClass(AbstractCriterion::class, ['bar']),
+                                                             $this->getMockForAbstractClass(AbstractCriterion::class, ['fubar'])]]);
 
-        $notRecursive = $this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', ['foo']);
+        $notRecursive = $this->getMockForAbstractClass(AbstractCriterion::class, ['foo']);
 
         return [[$notRecursive, $notRecursive, 0],
                 [$notRecursive, $this->stub, 0],

@@ -9,8 +9,13 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Api;
 
+use CalendArt\Adapter\Google\Criterion\AbstractCriterion;
+use CalendArt\Adapter\Google\GoogleAdapter;
+use CalendArt\Adapter\Google\Model\Calendar;
+use CalendArt\Adapter\Google\Model\User;
+use CalendArt\Adapter\Google\Model\UserPermission;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use CalendArt\Adapter\Google\Criterion\Field;
@@ -28,6 +33,8 @@ class CalendarApi implements CalendarApiInterface, AclInterface
 {
     /** @var GoogleAdapter Google Adapter used */
     private $adapter;
+
+    private $criteria;
 
     public function __construct(GoogleAdapter $adapter)
     {

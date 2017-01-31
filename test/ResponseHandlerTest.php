@@ -1,7 +1,8 @@
 <?php
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Test;
 
+use CalendArt\Adapter\Google\ResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseHandlerTest extends \PHPUnit_Framework_TestCase
@@ -23,6 +24,9 @@ class ResponseHandlerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getResponses
+     * @param $statusCode
+     * @param $reasonPhrase
+     * @param $exception
      */
     public function testHandleErrors($statusCode, $reasonPhrase, $exception)
     {
@@ -58,6 +62,7 @@ class Api
 
     /**
      * Simulate a get method of an API
+     * @param ResponseInterface $response
      */
     public function get(ResponseInterface $response)
     {

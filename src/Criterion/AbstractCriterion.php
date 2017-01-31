@@ -9,7 +9,7 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Criterion;
 
 use CalendArt\Adapter\Google\Exception\CriterionNotFoundException;
 
@@ -136,6 +136,7 @@ abstract class AbstractCriterion implements IteratorAggregate
     /**
      * Merge two criterion together
      *
+     * @param AbstractCriterion $criterion
      * @return static
      */
     public function merge(self $criterion)

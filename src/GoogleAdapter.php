@@ -11,6 +11,11 @@
 
 namespace CalendArt\Adapter\Google;
 
+use CalendArt\Adapter\Google\Api\CalendarApi;
+use CalendArt\Adapter\Google\Api\EventApi;
+use CalendArt\Adapter\Google\Api\MailApi;
+use CalendArt\Adapter\Google\Model\Calendar;
+use CalendArt\Adapter\Google\Model\User;
 use InvalidArgumentException;
 
 use Http\Client\HttpClient;
@@ -50,22 +55,42 @@ class GoogleAdapter implements AdapterInterface
 {
     use ResponseHandler;
 
-    /** @var HttpClient */
+    /**
+     * @var HttpClient
+     */
     private $client;
 
-    /** @var MessageFactory */
+    /**
+     * @var MessageFactory
+     */
     private $messageFactory;
 
-    /** @var CalendarApi CalendarApi to use */
+    /**
+     * @var CalendarApi CalendarApi to use
+     */
     private $calendarApi;
 
-    /** @var EventApi[] */
+    /**
+     * @var EventApi[]
+     */
     private $eventApis;
 
-    /** @var User Current user, associated with the given token */
+    /**
+     * @var MailApi
+     */
+    private $mailApi;
+
+    /**
+     * @var User Current user, associated with the given token
+     */
     private $user;
 
-    /** @param string $token access token delivered by google's oauth system */
+    /**
+     * @param string $token access token delivered by google's oauth system
+     * @param HttpClient $client
+     * @param MessageFactory $messageFactory
+     * @param UriFactory $uriFactory
+     */
     public function __construct(
         $token,
         HttpClient $client = null,
@@ -93,7 +118,9 @@ class GoogleAdapter implements AdapterInterface
         $this->messageFactory = $messageFactory ?: MessageFactoryDiscovery::find();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * @inheritdoc
+     */
     public function getCalendarApi()
     {
         if (null === $this->calendarApi) {
@@ -103,7 +130,9 @@ class GoogleAdapter implements AdapterInterface
         return $this->calendarApi;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * @inheritdoc
+     */
     public function getEventApi(AbstractCalendar $calendar = null)
     {
         if (!$calendar instanceof Calendar) {
@@ -115,6 +144,36 @@ class GoogleAdapter implements AdapterInterface
         }
 
         return $this->eventApis[$calendar->getId()];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getMailApi()
+    {
+        if (null === $this->mailApi) {
+            $this->mailApi = new MailApi($this);
+        }
+
+        return $this->mailApi;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaskApi()
+    {
+        // TODO: Implement getTaskApi() method.
+
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaskGroupApi()
+    {
+        // TODO: Implement getTaskGroupApi() method.
+
     }
 
     /**
@@ -153,6 +212,7 @@ class GoogleAdapter implements AdapterInterface
     /**
      * Sets a Google User
      *
+     * @param User $user
      * @return $this
      */
     public function setUser(User $user)
@@ -162,6 +222,14 @@ class GoogleAdapter implements AdapterInterface
         return $this;
     }
 
+    /**
+     * @param $method
+     * @param $uri
+     * @param array $headers
+     * @param null $body
+     * @return mixed
+     * @throws BackendException
+     */
     public function sendRequest($method, $uri, array $headers = [], $body = null)
     {
         // deal with query string parameters

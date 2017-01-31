@@ -1,10 +1,9 @@
 {
-    "name": "calendart/google-adapter",
+    "name": "carterzenk/google-adapter",
     "type": "library",
     "description": "Google Adapter for CalendArt",
     "keywords": ["Calendar", "Events", "Scheduler", "Schedule", "Agenda", "Google"],
     "license": "MIT",
-
     "authors": [
         {
             "name": "Baptiste Clavié",
@@ -13,31 +12,33 @@
             "role": "Project Lead"
         }
     ],
-
     "require": {
         "php": ">=5.5.0",
-
-        "calendart/calendart": "^1.6",
-
+        "carterzenk/calendart": "dev-master",
         "psr/log": "^1.0",
         "doctrine/collections": "^1.0",
-
         "php-http/client-implementation": "^1.0",
-
         "php-http/httplug": "^1.1",
         "php-http/message": "^1.1",
         "php-http/message-factory": "^1.0",
         "php-http/client-common": "^1.4",
         "php-http/discovery": "^1.1"
     },
-
     "require-dev": {
-        "php-http/guzzle6-adapter": "^1.1"
+        "php-http/guzzle6-adapter": "^1.1",
+        "phpunit/phpunit": "^5.4",
+        "phpunit/php-code-coverage": "^4.0"
     },
-
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:carterzenk/CalendArt.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
-            "CalendArt\\Adapter\\Google\\": ["src/", "test/"]
+            "CalendArt\\Adapter\\Google\\": "src/",
+            "CalendArt\\Adapter\\Google\\Test\\": "test/"
         }
     }
 }

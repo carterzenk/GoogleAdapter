@@ -9,7 +9,7 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google;
+namespace CalendArt\Adapter\Google\Model;
 
 use Doctrine\Common\Collections\Collection,
     Doctrine\Common\Collections\ArrayCollection;
@@ -86,7 +86,10 @@ abstract class AbstractEvent extends BaseAbstractEvent
         return $this->raw;
     }
 
-    /** @return $this */
+    /**
+     * @param BaseEventParticipation $participation
+     * @return $this
+     */
     public function addParticipation(BaseEventParticipation $participation)
     {
         if (!$participation instanceof EventParticipation) {
@@ -99,10 +102,9 @@ abstract class AbstractEvent extends BaseAbstractEvent
     /**
      * Hydrate a new object from an array of data extracted from a returned json
      *
+     * @param Calendar $calendar
      * @param array $data JSON interpreted data returned by the event's api
-     *
-     * @throws InvalidArgumentException The data is not valid
-     * @return static Event instance
+     * @return static The data is not valid
      */
     public static function hydrate(Calendar $calendar, array $data)
     {
@@ -138,7 +140,7 @@ abstract class AbstractEvent extends BaseAbstractEvent
 
             try {
                 $date->setTimezone(new DateTimeZone($data['timeZone']));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // The timezone given by the provider isn't supported by the DateTimeZone object.
                 // This is the case for Asia/Yangon already met.
                 // Catch the exception is better than using the list from timezone_identifiers_list() because it's not a complete one.

@@ -1,14 +1,13 @@
 <?php
 
-namespace CalendArt\Adapter\Google\Event;
+namespace CalendArt\Adapter\Google\Model;
 
 use DateTime;
 use InvalidArgumentException;
 
 use Doctrine\Common\Collections\Collection;
 
-use CalendArt\Adapter\Google\Calendar;
-use CalendArt\Adapter\Google\PartialInterface;
+use CalendArt\Adapter\Google\Model\PartialInterface;
 use CalendArt\EventParticipation as BaseEventParticipation;
 
 /**

@@ -9,8 +9,10 @@
  * @license   http://www.opensource.org/licenses/MIT-License MIT License
  */
 
-namespace CalendArt\Adapter\Google\Criterion;
+namespace CalendArt\Adapter\Google\Test\Criterion;
 
+use CalendArt\Adapter\Google\Criterion\AbstractCriterion;
+use CalendArt\Adapter\Google\Criterion\Collection;
 use ReflectionMethod;
 
 use PHPUnit_Framework_TestCase;
@@ -60,7 +62,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     private function getCriterion($name, array $criteria = [])
     {
-        $mock = $this->getMockForAbstractClass('CalendArt\\Adapter\\Google\\AbstractCriterion', [$name, $criteria]);
+        $mock = $this->getMockForAbstractClass(AbstractCriterion::class, [$name, $criteria]);
 
         $mock->expects(static::any())
              ->method('build')

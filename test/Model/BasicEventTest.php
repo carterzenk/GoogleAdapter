@@ -1,10 +1,12 @@
 <?php
 
-namespace CalendArt\Adapter\Google\test\Event;
+namespace CalendArt\Adapter\Google\Test\Model;
 
+use CalendArt\Adapter\Google\Model\Calendar;
+use Doctrine\Common\Collections\Collection;
 use Prophecy\Argument;
 
-use CalendArt\Adapter\Google\Event\BasicEvent;
+use CalendArt\Adapter\Google\Model\BasicEvent;
 
 class BasicEventTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,6 +14,7 @@ class BasicEventTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getWrongEndData
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage When the "end" property is missing, the "endTimeUnspecified" property must be specified or must be worth true
+     * @param array $endData
      */
     public function testHydrateWithoutEnd(array $endData)
     {
@@ -24,7 +27,7 @@ class BasicEventTest extends \PHPUnit_Framework_TestCase
             'start' => ['dateTime' => '2015-01-01T10:00:00'],
         ], $endData);
 
-        $calendar = $this->prophesize('CalendArt\Adapter\Google\Calendar');
+        $calendar = $this->prophesize(Calendar::class);
 
         BasicEvent::hydrate($calendar->reveal(), $data);
     }
@@ -53,7 +56,7 @@ class BasicEventTest extends \PHPUnit_Framework_TestCase
             'end' => 'foo',
         ];
 
-        $calendar = $this->prophesize('CalendArt\Adapter\Google\Calendar');
+        $calendar = $this->prophesize(Calendar::class);
 
         BasicEvent::hydrate($calendar->reveal(), $data);
     }
@@ -70,10 +73,10 @@ class BasicEventTest extends \PHPUnit_Framework_TestCase
             'endTimeUnspecified' => true,
         ];
 
-        $collection = $this->prophesize('Doctrine\Common\Collections\Collection');
+        $collection = $this->prophesize(Collection::class);
         $collection->add(Argument::any())->shouldBeCalled();
 
-        $calendar = $this->prophesize('CalendArt\Adapter\Google\Calendar');
+        $calendar = $this->prophesize(Calendar::class);
         $calendar->getEvents()->willReturn($collection->reveal());
 
         $event = BasicEvent::hydrate($calendar->reveal(), $data);
@@ -94,10 +97,10 @@ class BasicEventTest extends \PHPUnit_Framework_TestCase
             'endTimeUnspecified' => true,
         ];
 
-        $collection = $this->prophesize('Doctrine\Common\Collections\Collection');
+        $collection = $this->prophesize(Collection::class);
         $collection->add(Argument::any())->shouldBeCalled();
 
-        $calendar = $this->prophesize('CalendArt\Adapter\Google\Calendar');
+        $calendar = $this->prophesize(Calendar::class);
         $calendar->getEvents()->willReturn($collection->reveal());
 
         $event = BasicEvent::hydrate($calendar->reveal(), $data);
